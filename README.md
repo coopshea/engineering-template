@@ -48,7 +48,7 @@ Three months later, a partnership conversation needs a slide deck. A patent atto
 
 ---
 
-This is roughly the system the people I most respect have always run by hand — tidy lab notebooks, every decision dated and sourced, the whole record assemblable on demand. I've never been able to sustain that kind of discipline; the documentation tax always felt bigger than the work. The bet here is that with Claude doing most of the capture in real time, the tax drops to near zero and the paper trail becomes a side effect of working.
+Left to my own devices I get pulled deeper into whatever I'm working on and don't surface to write it down until I have to. The geniuses I respect surface naturally — for them the record is part of the process. I've tried to imitate it and it never sticks. With Claude doing the capture in the background, I get most of the same record without having to context-switch out of the work.
 
 ## Who might find this useful
 
