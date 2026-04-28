@@ -114,15 +114,9 @@ The most useful artifact here is `CLAUDE.md`. If you don't want the whole templa
 
 Issues and PRs welcome if you adopt this and find a convention worth adding to the harness layer.
 
-## A caveat — some things are worth doing slowly
+## A caveat
 
-This whole repo takes the position that, for the engineer, *doing the design work* is a higher-yield activity than *communicating about the design work*, and the bet is that an agent can carry most of the communication load. That's a real philosophical stance and it's not the only defensible one.
-
-There is a different tradition that says writing things down by hand — slowly, in your own words, with your own judgment about what's worth recording — *is* the thinking. Drafting a memo forces you to confront whether you actually understand the argument. Sitting with a result for a day before you write it up surfaces the issue you were going to wave past. A meeting summary you write yourself shows you what you weren't paying attention to. None of that survives if you let an agent do the capture in real time and never re-read what landed.
-
-If you are early in your engineering career, or working on something where the *quality* of the reasoning matters more than the *throughput* of the documentation, default toward writing more things by hand than this template suggests. Use the harness for the bookkeeping — REQ-IDs, risk register rows, source citations — and write the leading concept docs and the meeting summaries yourself. The cross-reference tables are still worth maintaining; they're cheap and they don't replace any thinking. But the prose where you explain *why* a design choice is right is one of the few places where the slow path is the fast path.
-
-The right balance is personal and project-dependent. The template doesn't enforce one — it just makes the capture-as-you-go path the default. Override the default whenever you suspect that going slow is the thing the work actually needs.
+Some things are worth doing slowly and deliberately. That's up to the individual user. This repo takes the opinion that doing the design work is a more high-yield activity for the engineer than communicating about it — but that's a philosophical thing one could go either way on.
 
 ## License
 
