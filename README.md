@@ -1,6 +1,6 @@
-# Engineering Documentation Template
+# A shared brain for small engineering & product design teams
 
-A Claude Code harness for engineering projects. The idea: while you're working through a design problem with Claude, the conversation becomes structured documentation — design problem subdirectories, requirements with IDs, a risk register, a verified citation file. By the time someone else on the team needs context, it's already written down in a place they can find.
+A Claude Code harness that turns the work you're already doing into a queryable record everyone on the team can use. As you work through a design problem with Claude, the conversation becomes structured documentation — design problem subdirectories, requirements with IDs, a risk register, a verified citation file. By the time someone else on the team needs context, it's already written down in a place they can find.
 
 This is the scaffold I use for my own projects. I'm publishing it because the harness layer (the `CLAUDE.md` conventions, the source verification policy, the cross-reference tables) seems useful beyond my specific work, and small teams prototyping with coding agents like Claude Code might find it a reasonable baseline to fork or steal from.
 
