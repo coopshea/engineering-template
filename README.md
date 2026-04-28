@@ -43,6 +43,14 @@ The point isn't that this couldn't happen with regular notes. It's that the engi
 
 It is probably not useful for: pure software projects (different conventions apply), large orgs with an existing QMS, or anyone who wants a template they fill in once and never touch again.
 
+## An honest note on source verification
+
+The repo has a strict source verification policy in `CLAUDE.md` and a `sources.yaml` file with verification tiers — Claude is not allowed to mark anything `verified: true` on its own. That stops the worst failure mode (the agent confidently citing a paper it never read), but it does not solve the deeper problem: if you ask Claude to find sources that support a conclusion you've already reached, it will find them. So will Google Scholar. So will you. There is always *something* in the literature that supports any reasonable-sounding claim, and an agent biased toward being helpful will surface it.
+
+The verification policy here is necessary but not sufficient. The real fix is upstream of the search: spend deliberate time navigating the literature *before* you've decided what you think. Use tools built for that — [OpenEvidence](https://openevidence.com) for clinical questions, [Litmaps](https://www.litmaps.com) or [Connected Papers](https://www.connectedpapers.com) for tracing citation networks, [Elicit](https://elicit.com) for structured literature review. They surface the shape of the field, not just the papers that confirm what you already typed.
+
+[Readwise](https://readwise.io) (or any equivalent) pairs well with this workflow: highlight as you read, sync the highlights into a personal corpus, and pipe that corpus into the engineering log when you're ready to cite. The advantage is that what you cite is what you actually read and digested — not what an agent fetched in response to a leading question. The verification flag in `sources.yaml` becomes meaningful instead of ceremonial.
+
 ## What's in the repo
 
 - `CLAUDE.md` — the agent instructions. Format standards, source verification policy, design problem subdirectory conventions, team collaboration rules. This is the most transferable file in the repo.
