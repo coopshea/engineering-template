@@ -1,179 +1,79 @@
 # Engineering Documentation Template
 
-**A Claude Code harness for engineering projects: as you do the work, the documentation builds itself.**
+A Claude Code harness for engineering projects. The idea: while you're working through a design problem with Claude, the conversation becomes structured documentation — design problem subdirectories, requirements with IDs, a risk register, a verified citation file. By the time someone else on the team needs context, it's already written down in a place they can find.
 
-This is a template repo. Clone it as the starting point for an engineering project — hardware, mechanical design, regulated devices, IP-heavy R&D — where you want a paper trail that can later become a Design History File, a regulatory submission, a patent filing, or just a deck for your investors. Without writing it twice.
-
-The template is the **agent harness layer**: a directory structure, a set of Claude Code instructions (`CLAUDE.md`), a few skills, and conventions that teach Claude to treat this repo as the project's source of truth. There's no project content in here — only the scaffolding.
+This is the scaffold I use for my own projects. I'm publishing it because the harness layer (the `CLAUDE.md` conventions, the source verification policy, the cross-reference tables) seems useful beyond my specific work, and small teams prototyping with coding agents like Claude Code might find it a reasonable baseline to fork or steal from.
 
 ---
 
-## Why this exists
+## What it actually does
 
-Small engineering teams have the same problem at every stage:
+Anyone on the team — including the non-engineers — can ask the agent things like:
 
-- The CAD lives in someone's head and on a hard drive.
-- The "why we picked this material" lives in a Slack thread from three weeks ago.
-- The risk you flagged in a meeting got captured as "we should think about that more later."
-- When the regulatory consultant, the patent attorney, the investor, or the new hire shows up, you spend a week reconstructing what the team already knew.
+- *"Why did we reject the cantilever needle approach?"*
+- *"Show me every design decision that depends on the 20N actuation force assumption."*
+- *"Pull the comparison matrix for the deflector geometry trade study and turn it into a slide."*
+- *"Has anyone logged a risk related to suture pull-through?"*
+- *"What sources do we have for the tissue mechanics numbers, and which are verified?"*
 
-The standard answer is "be more disciplined about documentation." That doesn't work, because the engineer who just figured out a tricky design decision wants to keep designing — not stop and write a paragraph for someone who isn't in the room.
+…and get real answers, with file paths, because the engineering work and the documentation are the same artifact. Decisions live in `engineering-log/[problem-name]/02_approach-survey.md`. Risks live in `risk-register.md` with stable RSK-IDs. Sources live in `sources.yaml` with a verification flag that the agent is not allowed to set on its own.
 
-This template is the other answer: **co-author the documentation with Claude as you go.** The conventions are tight enough that the output is consistent across sessions, contributors, and agents — and structured enough that it converts cleanly into the artifacts non-technical teammates actually need (slides, summaries, regulatory inputs, patent filings).
+The agent enforces the conventions on itself because they're written into `CLAUDE.md`, which Claude Code reads on every session.
 
----
+## A worked example
 
-## A contrived example
+Two engineers and a clinical advisor are prototyping an endoscopic suturing device. On Tuesday, Engineer A spends the afternoon evaluating three needle deflection geometries. Working with Claude, they end up with `engineering-log/needle-deflection/` containing a problem definition, a comparison matrix of the three approaches with specific rejection reasons (force budget, buckling load, tissue compatibility), and a leading concept doc. Two new requirements get added to `requirements.md` and a tissue-mismatch hazard gets logged in `risk-register.md`.
 
-You're a small team prototyping a new endoscopic suturing device. Two engineers, a clinical lead, and a part-time advisor. You meet on Tuesdays.
+Wednesday morning, the clinical advisor reads the comparison matrix in two minutes and asks a sharp question about one of the rejected approaches. The conversation moves quickly because the trade-off is already in front of both of them.
 
-**Tuesday morning, before the meeting.** Engineer A spent yesterday afternoon evaluating three different needle deflection geometries. The math says one wins, but only in certain tissue conditions. They open Claude Code and say:
+A month later, a patent attorney sits down for an hour. The engineer points at the same comparison matrix and at `engineering-log/competitive-reference/patents/README.md`. The attorney leaves with what they need. Nobody had to "prepare for the patent meeting."
 
-> "I'm working on the needle deflection problem. I tried three approaches: a straight cantilever, a curved fixed deflector, and a sigmoid two-stage deflector. Help me document this."
+The point isn't that this couldn't happen with regular notes. It's that the engineer was already doing the thinking — the harness just captured it in a shape that's useful to the advisor, the attorney, and the next engineer to touch the file.
 
-Claude reads `CLAUDE.md`, sees the design-problem subdirectory convention, and creates `engineering-log/needle-deflection/` with a `README.md`, `01_problem-definition.md`, and a `02_approach-survey.md` containing a comparison matrix. It asks the engineer for the rejection reasons (force budget? buckling? tissue compatibility?), captures them with specific numbers, and updates `requirements.md` with two new REQ-IDs and `risk-register.md` with a tissue-mismatch hazard. Total time: 20 minutes that the engineer would have spent thinking anyway.
+## Who might find this useful
 
-**Tuesday afternoon, the meeting.** The clinical lead asks "wait, didn't we rule out the cantilever last month?" The engineer pulls up `engineering-log/needle-deflection/02_approach-survey.md`, scrolls to the comparison matrix, and points at the cell that says "rejected — buckling load 3.7N below required actuation force 5N." The conversation moves on in 30 seconds instead of 30 minutes.
+- **Small hardware or biomed teams (2–10 people)** where the same five people wear engineering, regulatory, IP, and clinical hats and need a shared source of truth that doesn't require a full PLM system.
+- **Student design teams** (capstone, thesis, competition robotics) who want a defensible written record of their reasoning alongside the working prototype.
+- **Solo or small consultancies** doing technical design work where the deliverable to the client includes "here's why we picked this."
+- **Anyone using Claude Code as their primary engineering co-pilot** who has felt context vanish between sessions and wants the agent to write things down in a structured place by default.
 
-**Wednesday.** The advisor wants a one-pager for a potential partnership conversation. The engineer says to Claude:
+It is probably not useful for: pure software projects (different conventions apply), large orgs with an existing QMS, or anyone who wants a template they fill in once and never touch again.
 
-> "Make me a one-page summary of where we are on needle deflection, written for a non-engineer. Include the leading concept and the two open questions."
+## What's in the repo
 
-Claude reads `04_leading-concept.md`, the open questions section, and the linked risk register entries. It produces a clean summary in plain language that the engineer reviews and edits in five minutes. The advisor gets it that afternoon.
+- `CLAUDE.md` — the agent instructions. Format standards, source verification policy, design problem subdirectory conventions, team collaboration rules. This is the most transferable file in the repo.
+- `AGENTS.md` — git workflow + onboarding for human and AI contributors.
+- `engineering-log/` — the working area. Cross-reference tables (`requirements.md`, `risk-register.md`, `material-selections.md`, `sources.yaml`), a master `INDEX.md`, and a place for design problem subdirectories.
+- `scripts/fetch_notion_meetings.py` — a script that pulls meeting notes from Notion into `meeting-notes/YYYY-MM-DD/`. Bring your own integration token and database ID; setup steps are in the script docstring. A reference `SKILL_meeting-notes.md` is included for installing it as a `/meeting-notes` Claude Code skill.
+- Standard project folders: `ip-drafts/`, `meeting-notes/`, `governance/`, `financials/`, `invoices/`.
 
-**Two weeks later.** A patent attorney joins for an hour. The engineer points them at `engineering-log/needle-deflection/02_approach-survey.md` for the design-space coverage and `engineering-log/competitive-reference/patents/README.md` for the prior art the team has surfaced so far. The attorney leaves with everything they need to draft a provisional. No one had to "prepare for the patent meeting."
+The cross-reference tables ship empty. There's no project content here — just the scaffolding.
 
-**A month later.** A regulatory consultant asks for the risk file and requirements traceability. The engineer hands them `risk-register.md` and `requirements.md`. The consultant says "this is already 80% of an ISO 14971 input." The team didn't know what ISO 14971 was when they started.
-
-**The point:** none of this required the engineers to stop engineering. They were going to think about the rejection reasons anyway. They were going to talk through the trade-offs anyway. The template just captures it in a shape that's useful to everyone else, automatically.
-
----
-
-## What you get
-
-1. **A documentation system designed for AI co-authorship.** `CLAUDE.md` tells Claude how to write engineering log entries, where to put them, when to update cross-reference tables, and what to do when it can't verify a citation.
-
-2. **A source verification policy that doesn't lie.** Claude can confidently hallucinate a citation. This template makes that hard: every reference goes into `sources.yaml` with a verification tier, and only the human user marks something `verified: true`. Claude can locate, summarize, and queue sources — it cannot vouch for them.
-
-3. **Cross-reference tables that turn into a regulatory file.** `requirements.md` (REQ-IDs), `risk-register.md` (RSK-IDs), `material-selections.md`, and `sources.yaml` get updated incrementally during every session. Formalization later is assembly, not archaeology.
-
-4. **Design problem subdirectories that double as patent prep.** Each design problem gets a problem definition, an approach survey with comparison matrix, calculations, and a leading concept. The approach survey is the highest-value document: it serves engineering decision-making AND patent claim coverage simultaneously.
-
-5. **A meeting-notes skill out of the box.** `scripts/fetch_notion_meetings.py` pulls meeting notes from Notion and writes them to `meeting-notes/YYYY-MM-DD/` with zero LLM tokens used for the bulk content. Bring your own Notion integration (~5 minute setup). A reference SKILL.md is provided to install it as `/meeting-notes`.
-
-6. **Team workflow conventions.** `AGENTS.md` documents the branch-and-PR workflow, who works in which directories, and the rules every contributor (human or agent) follows.
-
-## Who this is for
-
-- **Small hardware/biomed teams (2–10 people)** prototyping toward a real product, where the IP and the regulatory paper trail will both matter eventually.
-- **Solo or small-team consultancies** doing technical design work that needs to be defensible to clients later.
-- **University labs or thesis projects** where the deliverable is both a working prototype and a written record of why it works.
-- **Anyone using Claude Code as their primary engineering co-pilot** who has felt the pain of context vanishing between sessions.
-
-It is *not* a fit for: pure software projects (different conventions apply), large org-wide PLM/QMS replacements (this is a scaffold, not a system), or anyone who wants their LLM to confidently cite papers it hasn't read (we explicitly prevent that).
-
-## What this template is NOT
-
-- Not a project. No IP, no product, no real data. Cross-reference tables empty. Fill them in as you go.
-- Not a quality management system. It's the early-stage scaffold that becomes the inputs to a QMS, DHF, or patent filing when the time comes.
-- Not opinionated about your domain. Mechanical, biomedical, electrical, materials — the conventions apply anywhere "what we tried, why we picked this, here's the math, here's the source" is the right output shape.
-
----
-
-## Quick Start
+## Quick start
 
 ```bash
-# 1. Use as a GitHub template, or clone and reset history
-git clone <this-repo-url> my-project
+# Use as a GitHub template (button at top of the repo page) or clone directly
+git clone https://github.com/coopshea/engineering-template my-project
 cd my-project
 
-# 2. Replace placeholders
-#    - [PROJECT NAME] → your project name
-#    - [YOUR NAME]    → your name
-#    - In CLAUDE.md, fill in Project Overview, Primary User Scope, Team Collaboration table
+# Replace [PROJECT NAME] and [YOUR NAME] across the repo
+# In CLAUDE.md, fill in Project Overview, Primary User Scope, and the Team Collaboration table
 
-# 3. (Optional) Set up Notion meeting-notes sync
-#    See scripts/fetch_notion_meetings.py docstring for setup steps
-
-# 4. Open in Claude Code and start working
-#    Claude reads CLAUDE.md automatically and follows the conventions
+# Open in Claude Code — it reads CLAUDE.md automatically
 ```
 
-| What you need | Where to find it |
-|---------------|-----------------|
-| AI agent instructions | `CLAUDE.md` |
-| Git workflow + onboarding | `AGENTS.md` |
-| Master index of design problems | `engineering-log/INDEX.md` |
-| Requirements (REQ-IDs) | `engineering-log/requirements.md` |
-| Risk register | `engineering-log/risk-register.md` |
-| Material selections | `engineering-log/material-selections.md` |
-| Sources + verification status | `engineering-log/sources.yaml` |
-| Notion meeting-notes script | `scripts/fetch_notion_meetings.py` |
+## Steal the pattern
 
-## Directory Structure
+The most useful artifact here is `CLAUDE.md`. If you don't want the whole template, lift that file into your existing repo and adapt it. The conventions worth copying:
 
-```
-├── CLAUDE.md                    ← AI agent instructions
-├── AGENTS.md                    ← Git workflow + team onboarding
-├── README.md                    ← this file
-├── .gitignore
-├── engineering-log/             ← Design problems + cross-reference tables
-│   ├── INDEX.md                 ← start here
-│   ├── requirements.md
-│   ├── risk-register.md
-│   ├── material-selections.md
-│   ├── sources.yaml / .md
-│   ├── hours-log.csv
-│   ├── [problem-name]/          ← one folder per design problem
-│   └── competitive-reference/   ← public-domain prior art
-├── ip-drafts/                   ← Patent drafts, invention disclosures
-├── meeting-notes/               ← Auto-imported from Notion (optional)
-├── governance/                  ← IP / collaboration agreements
-├── financials/ + invoices/      ← Expense tracking
-└── scripts/                     ← Integration scripts (Notion sync, etc.)
-```
+1. Cross-reference tables (requirements, risks, materials, sources) maintained as markdown files the agent updates incrementally each session.
+2. Design problem subdirectories with a comparison matrix in the approach survey — this single file is what later becomes a patent claim or a regulatory rationale.
+3. A source verification policy where the agent cannot mark anything `verified: true` on its own.
+4. Authoritative-vs-working-notes distinction so the agent knows which files to cite and which to treat as working state.
+5. Skills that wrap external integrations (Notion, Linear, etc.) so heavy content syncs to disk without burning tokens.
 
-## Patterns Worth Knowing
-
-### Hand calculations as Jupyter notebooks
-
-For calc-heavy design problems (force budgets, stress analysis, sizing studies), Jupyter notebooks (`03_calculations.ipynb`) work better than markdown: equations render, results update when constants change, and the notebook is a runnable artifact. The template doesn't ship example notebooks (those are project-specific), but the pattern is:
-
-- Define shared constants in a single `constants.py` at the engineering-log root
-- Each notebook imports from there — single source of truth
-- Notebooks live in the design problem subdirectory alongside the markdown docs
-- Archive any markdown that gets migrated as `.md.archived` rather than deleting it
-
-### Authoritative vs. working notes
-
-Not everything is equally trustworthy:
-
-- **Authoritative** — leading concept docs, cross-reference tables, sources marked `verified: true` or `verified: user`
-- **Working notes** — approach surveys, calculations, problem definitions, standalone dated entries, anything `verified: false`
-
-Claude treats these differently when citing or building on them.
-
-### Skills, not scripts
-
-If you find yourself running an integration regularly (Notion sync, Linear ticket fetch, Slack digest export), wrap it in a Claude Code skill so you can invoke it conversationally. The script does the API call and writes to disk; Claude reads the disk afterward — minimal token usage, maximum reuse. See "Custom Skills & Integrations" in `CLAUDE.md`.
-
-### Generating slides and summaries from the log
-
-Once the engineering log has structure, generating downstream artifacts is mostly a matter of pointing Claude at the right files:
-
-- **Investor / partner one-pager:** "Summarize the leading concepts across all design problems for a non-engineer. One paragraph each, plus open questions."
-- **Slide deck:** "Make a 10-slide deck on the current state of [subsystem]. Use the comparison matrix from `02_approach-survey.md` for the trade-study slide. Pull figures from each `assets/` folder."
-- **Regulatory input:** "Cross-reference the risk register against requirements.md and flag any RSK without a linked REQ."
-- **Patent prep:** "List every approach in `02_approach-survey.md` files repo-wide that was rejected for a reason other than 'didn't seem feasible.' Group by design problem."
-
-The structure exists so that the slide deck doesn't require re-explaining the project to Claude every time.
-
----
-
-## Contributing
-
-If you're using this template and find a convention that should be in the harness layer (not your project), open a PR upstream. Things that belong here: agent instructions, format standards, skill scaffolding, workflow conventions. Things that don't: your project's IP, requirements, citations, or design content.
+Issues and PRs welcome if you adopt this and find a convention worth adding to the harness layer.
 
 ## License
 
-MIT for the template scaffold itself. Whatever you decide for content you add to your fork.
+MIT.
