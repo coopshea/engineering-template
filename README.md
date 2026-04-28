@@ -49,6 +49,14 @@ It is probably not useful for: pure software projects (different conventions app
 
 The cross-reference tables ship empty. There's no project content here — just the scaffolding.
 
+## Optional: Obsidian, Notion meetings, and other skills
+
+Because the whole repo is just markdown files, you can open it in [Obsidian](https://obsidian.md) and get a graph view, backlinks between design problems, and inline previews of figures. Useful when you want to *look* at the project rather than query it through the agent — especially handy for showing teammates how things connect. The repo's `.gitignore` ignores Obsidian's `.obsidian/` workspace folder so each user can configure their own view.
+
+The included Notion meeting-notes skill is intended for the team meeting workflow: someone runs `/meeting-notes` after a meeting, the script pulls the transcript and action items from Notion, and Claude can then route them — turning action items into roadmap entries, risk register rows, follow-up tasks in the relevant design problem subdirectory, or notes flagged for the next agenda. The same content shows up in Obsidian's graph view as a meeting node connected to whichever design problems it touched.
+
+Add other skills as your team's tooling demands. A Linear sync (for teams that want a stronger external task manager than Notion), a Slack digest pull, a GitHub issue importer — same pattern: a script does the API call and writes to disk, a SKILL.md teaches Claude how to invoke it conversationally. The `Custom Skills & Integrations` section of `CLAUDE.md` covers the convention.
+
 ## Quick start
 
 ```bash
