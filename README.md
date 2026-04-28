@@ -20,6 +20,8 @@ Anyone on the team — including the non-engineers — can ask the agent things 
 
 The agent enforces the conventions on itself because they're written into `CLAUDE.md`, which Claude Code reads on every session.
 
+Because the whole repo is in git, every change is timestamped and attributed automatically. That gives you a system of record for engineering decisions — when a requirement was added, when a risk was first logged, who proposed which approach, when a material was rejected and why — without anyone having to maintain that log by hand. In regulated industries (FDA Class II/III medical devices, FAA, IEC 62304 software, automotive ISO 26262), evidence of dated, attributed design decisions is a real submission requirement, not just hygiene. The branch-and-PR workflow in `AGENTS.md` is what turns "we have a git repo" into "we have a defensible design history."
+
 ## A worked example
 
 Two engineers and a clinical advisor are prototyping an endoscopic suturing device. On Tuesday, Engineer A spends the afternoon evaluating three needle deflection geometries. Working with Claude, they end up with `engineering-log/needle-deflection/` containing a problem definition, a comparison matrix of the three approaches with specific rejection reasons (force budget, buckling load, tissue compatibility), and a leading concept doc. Two new requirements get added to `requirements.md` and a tissue-mismatch hazard gets logged in `risk-register.md`.
