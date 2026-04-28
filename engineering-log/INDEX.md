@@ -1,7 +1,7 @@
 # Engineering Log — Master Index
 
 **Project:** [PROJECT NAME]
-**Author:** Cooper Shea
+**Author:** [YOUR NAME]
 **Last updated:** [DATE]
 
 ---

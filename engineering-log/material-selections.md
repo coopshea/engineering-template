@@ -1,7 +1,7 @@
 # [PROJECT NAME] — Material Selections Log
 
 **Project:** [PROJECT NAME]
-**Author:** Cooper Shea
+**Author:** [YOUR NAME]
 **Last updated:** [DATE]
 
 ---

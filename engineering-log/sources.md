@@ -1,7 +1,7 @@
 # [PROJECT NAME] — Source Verification Checklist
 
 **Project:** [PROJECT NAME]
-**Author:** Cooper Shea
+**Author:** [YOUR NAME]
 **Last updated:** [DATE]
 **Source file:** `engineering-log/sources.yaml`
 

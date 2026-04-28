@@ -1,7 +1,7 @@
 # [PROJECT NAME] — Risk Register
 
 **Project:** [PROJECT NAME]
-**Author:** Cooper Shea
+**Author:** [YOUR NAME]
 **Last updated:** [DATE]
 
 ---

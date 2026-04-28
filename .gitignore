@@ -1,0 +1,14 @@
+.DS_Store
+.obsidian/
+__pycache__/
+*.pyc
+~$*
+*.mp4
+*.mov
+.env
+.env.local
+
+# Folders that may contain large binary working files (CAD, video, source archives) —
+# uncomment or rename per project. Keep raw working files out of git.
+# import folder/
+# export/*.zip

@@ -1,14 +1,14 @@
 # [PROJECT NAME] — Master Citation File
 #
 # VERIFICATION TIERS (see CLAUDE.md for full policy):
-#   verified: true                — Cooper confirmed from full primary document
-#   verified: user                — Cooper/team confirmed verbally
-#   reviewed: full-text-accessed  — Claude read full paper body (Cooper to spot-check)
-#   reviewed: abstract-only       — Claude read abstract/metadata only (Cooper: skip link, find full PDF)
+#   verified: true                — User confirmed from full primary document
+#   verified: user                — User/team confirmed verbally
+#   reviewed: full-text-accessed  — Claude read full paper body (user to spot-check)
+#   reviewed: abstract-only       — Claude read abstract/metadata only (user: skip link, find full PDF)
 #   verified: false               — DEFAULT. Claude couldn't access, or values from prior conversation
 #
 # PRIORITY: CRITICAL | HIGH | MEDIUM | LOW
 # ACCESS: open | paywalled | thesis-repository | blocked
 #
 # Last updated: [DATE]
-# Author: Cooper Shea
+# Author: [YOUR NAME]

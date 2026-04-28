@@ -1,7 +1,7 @@
 # [PROJECT NAME] — Requirements Table
 
 **Project:** [PROJECT NAME]
-**Author:** Cooper Shea
+**Author:** [YOUR NAME]
 **Last updated:** [DATE]
 
 ---
