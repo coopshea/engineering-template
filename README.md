@@ -28,19 +28,27 @@ Because the whole repo is in git, every change is timestamped and attributed aut
 
 ## A worked example
 
-Two engineers and a clinical advisor are prototyping an endoscopic suturing device. Each beat below shows one artifact the harness captures and what would otherwise drift.
+Same setup throughout: two engineers and a clinical advisor prototyping an endoscopic suturing device, with needle deflection geometry as the active design problem.
 
-1. **Frame the problem.** Engineer A starts on needle deflection geometry. Constraints — tissue forces, jaw envelope, target bend radius — land in `requirements.md` as REQ-IDs. *Without this:* the constraints live in someone's head and slip the moment a new variable enters the conversation.
+### The individual experience — *document by doing*
 
-2. **Evaluate alternatives.** Three geometries get compared in `02_approach-survey.md` with specific rejection reasons (buckling load, tissue compatibility, manufacturability). *Without this:* the reasons compress into "we tried that, it didn't work" and nobody can defend the choice two months later.
+Engineer A spends an afternoon evaluating three needle deflection geometries. Working with Claude, the conversation produces real artifacts as it happens. Constraints (tissue force, jaw envelope, bend radius) land in `requirements.md` as REQ-IDs. The three approaches end up in `02_approach-survey.md` with a comparison matrix and specific rejection reasons — buckling load, tissue compatibility, manufacturability. A tissue-mismatch failure mode goes into `risk-register.md` with an RSK linked back to the originating requirement.
 
-3. **Log the new risk.** Picking the leading geometry surfaces a tissue-mismatch failure mode. It goes into `risk-register.md` with an RSK-ID, linked to the relevant REQ. *Without this:* the risk gets nodded at in a meeting and forgotten until a prototype fails.
+By 6pm, the engineer hasn't written a single document *on top of* the work. The work itself is the document. Next week, the rejection reasons haven't compressed to "we tried that, it didn't work." Constraints haven't slipped. The risk hasn't been forgotten.
 
-4. **Hand off without a handoff.** Engineer B picks up the problem next week, asks the agent *"what did A try and rule out?"*, and gets a real answer with file paths. The clinical advisor scans the comparison matrix in two minutes and asks a sharp question. *Without this:* both conversations require Engineer A in the room re-explaining yesterday's thinking.
+### The team experience — *shared context*
 
-5. **Catch the offhand idea.** Three weeks later, a Tuesday review produces *"we should revisit the cantilever with a thicker cross-section."* The Notion sync drops the transcript into `meeting-notes/2026-04-28/` and Claude routes the action item into the needle-deflection README, linked back to the transcript line. *Without this:* the suggestion is gone by Friday.
+Wednesday, the clinical advisor scans the comparison matrix in two minutes and asks a sharp question. Engineer B picks up the problem next week, asks the agent *"what did A try and rule out, and why?"*, and gets a real answer with file paths. The Tuesday review surfaces an offhand *"we should revisit the cantilever with a thicker cross-section"* — the Notion sync drops the transcript into `meeting-notes/` and Claude routes the action item back into the needle-deflection README, linked to the transcript line.
 
-The engineer was going to do the thinking either way. The harness keeps it from leaking out between sessions, between teammates, and between meetings.
+Nobody is the bottleneck. The original engineer doesn't need to be in the room to re-explain yesterday's thinking. Advisor input doesn't get lost. Meeting remarks don't evaporate by Friday.
+
+### The retrospective experience — *auditable history*
+
+Three months later, a partnership conversation needs a slide deck. A patent attorney sits down for an hour. A regulatory consultant asks for the risk file. In each case the answer is "point at the files." The deck pulls from `02_approach-survey.md` and the comparison matrix. The attorney reads the rejected approaches as design-space coverage. The regulatory consultant reads `requirements.md` and `risk-register.md` and asks for cleanups, not a rebuild. Git holds the timestamps and attribution. Nobody had to "prepare" for any of these meetings.
+
+---
+
+This is roughly the system the people I most respect have always run by hand — tidy lab notebooks, every decision dated and sourced, the whole record assemblable on demand. I've never been able to sustain that kind of discipline; the documentation tax always felt bigger than the work. The bet here is that with Claude doing most of the capture in real time, the tax drops to near zero and the paper trail becomes a side effect of working.
 
 ## Who might find this useful
 
