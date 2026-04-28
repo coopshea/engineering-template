@@ -4,7 +4,7 @@
 
 A Claude Code harness that turns the work you're already doing into a queryable record everyone on the team can use. As you work through a design problem with Claude, the conversation becomes structured documentation — design problem subdirectories, requirements with IDs, a risk register, a verified citation file. By the time someone else on the team needs context, it's already written down in a place they can find.
 
-This is the scaffold I use for my own projects. I'm publishing it because the harness layer (the `CLAUDE.md` conventions, the source verification policy, the cross-reference tables) seems useful beyond my specific work, and small teams prototyping with coding agents like Claude Code might find it a reasonable baseline to fork or steal from.
+This is the scaffold I use for my own projects. I'm publishing it because the harness layer (the `CLAUDE.md` conventions, the source verification policy, the cross-reference tables) seems useful beyond my specific work, and small teams prototyping with coding agents like Claude Code might find it a reasonable baseline to fork or borrow from.
 
 ---
 
@@ -20,9 +20,11 @@ Anyone on the team — including the non-engineers — can ask the agent things 
 
 …and get real answers, with file paths, because the engineering work and the documentation are the same artifact. Decisions live in `engineering-log/[problem-name]/02_approach-survey.md`. Risks live in `risk-register.md` with stable RSK-IDs. Sources live in `sources.yaml` with a verification flag that the agent is not allowed to set on its own.
 
+I used to think I needed RAG and embeddings and a variety of other hacks to do this, but now that most LLMs can be configured to have 1m+ context windows, I can just give them documents. Claude Code is a very capable harness for managing context and finding relevant info, and is even more so when organized in this manner.
+
 The agent enforces the conventions on itself because they're written into `CLAUDE.md`, which Claude Code reads on every session.
 
-Because the whole repo is in git, every change is timestamped and attributed automatically. That gives you a system of record for engineering decisions — when a requirement was added, when a risk was first logged, who proposed which approach, when a material was rejected and why — without anyone having to maintain that log by hand. In regulated industries (FDA Class II/III medical devices, FAA, IEC 62304 software, automotive ISO 26262), evidence of dated, attributed design decisions is a real submission requirement, not just hygiene. The branch-and-PR workflow in `AGENTS.md` is what turns "we have a git repo" into "we have a defensible design history."
+Because the whole repo is in git, every change is timestamped and attributed automatically. That gives you a system of record for engineering decisions — when a requirement was added, when a risk was first logged, who proposed which approach, when a material was rejected and why — without anyone having to maintain that log by hand. In regulated industries (FDA Class II/III medical devices, FAA, IEC 62304 software, automotive ISO 26262), evidence of dated, attributed design decisions is a real submission requirement, not just hygiene. The branch-and-PR workflow in `AGENTS.md` is what turns "we have a git repo" into "we have a defensible design history." I'm sure this isn't good enough for formal submissions, but it is a much better on ramp for 0-1 concepting where a lot of this is lost in the ether and impossible to transmit.
 
 ## A worked example
 
@@ -66,6 +68,10 @@ The cross-reference tables ship empty. There's no project content here — just 
 Because the whole repo is just markdown files, you can open it in [Obsidian](https://obsidian.md) and get a graph view, backlinks between design problems, and inline previews of figures. Useful when you want to *look* at the project rather than query it through the agent — especially handy for showing teammates how things connect. The repo's `.gitignore` ignores Obsidian's `.obsidian/` workspace folder so each user can configure their own view.
 
 The included Notion meeting-notes skill is intended for the team meeting workflow: someone runs `/meeting-notes` after a meeting, the script pulls the transcript and action items from Notion, and Claude can then route them — turning action items into roadmap entries, risk register rows, follow-up tasks in the relevant design problem subdirectory, or notes flagged for the next agenda. The same content shows up in Obsidian's graph view as a meeting node connected to whichever design problems it touched.
+
+This pattern is more useful than it sounds. A surprising amount of what determines a project's direction comes up in meetings as offhand remarks, half-finished thoughts, or "we should look into…" — items that aren't the top priority for the design team that week and quietly evaporate by Friday. Pulling the transcript into the repo automatically gives those moments a permanent home. Six months later, when you're drafting an invention disclosure or a patent application, you can link from a leading concept doc back to the exact meeting where the idea first surfaced, with timestamp and attribution intact. That kind of provenance is hard to reconstruct after the fact and free if you capture it as you go. As an example, after a Tuesday review the script writes `meeting-notes/2026-04-28/summary.md` and `transcript.md`; Claude can then take the action item *"Engineer A: revisit the cantilever needle approach with thicker cross-section by next week"* and add it as a follow-up bullet in `engineering-log/needle-deflection/README.md`, with a link back to the meeting transcript line.
+
+A user forking this repo will have to do their own setup work — creating a Notion integration, sharing their meetings database with it, and pasting their database ID into the script (steps in the docstring). The same pattern works for any note-taking system with an API: Granola, Otter, Fireflies, Read.ai, or whatever your team uses. Follow that tool's standard integration guide and adapt the script accordingly.
 
 Add other skills as your team's tooling demands. A Linear sync (for teams that want a stronger external task manager than Notion), a Slack digest pull, a GitHub issue importer — same pattern: a script does the API call and writes to disk, a SKILL.md teaches Claude how to invoke it conversationally. The `Custom Skills & Integrations` section of `CLAUDE.md` covers the convention.
 
