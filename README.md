@@ -1,4 +1,4 @@
-# A shared brain for small engineering & product design teams
+# A shared brain for small hardware engineering & product design teams
 
 ![](assets/header.png)
 
